@@ -10,13 +10,14 @@ afterAll(() => db.end())
 
 describe("app", () => {
     describe("GET /api/topics", () => {
-        test("should return an array of objects with properties of slug and description", () => {
+        test.only("should return an array of objects with properties of slug and description", () => {
             return request(app).get('/api/topics').expect(200).then((res) => {
                 expect(res.body.topics[0]).toMatchObject({
                     slug: expect.any(String),
                     description: expect.any(String)
                 })
                 expect(typeof res.body.topics).toBe("object")
+                expect(res.body.topics).toHaveLength(3)
             })
 
         });
