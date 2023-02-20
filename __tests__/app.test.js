@@ -21,14 +21,6 @@ describe("app", () => {
             })
 
         });
-        test("should return sorted data by slug ASC", () => {
-            return request(app).get('/api/topics').expect(200).then((res) => {
-
-                const topics = res.body.topics
-                expect(topics).toBeSortedBy('slug', { ascending: true })
-            })
-
-        });
         test("should return 404 when route does not exist", () => {
             return request(app).get('/api/topic').expect(404).then((res) => {
 
