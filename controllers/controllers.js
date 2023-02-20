@@ -1,4 +1,4 @@
-const { getAllTopics } = require('../models/models.js')
+const { getAllTopics } = require('../models/getAllTopicsModel.js')
 
 
 
