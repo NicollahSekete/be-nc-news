@@ -2,8 +2,11 @@ const db = require('../db/connection.js')
 
 const getAllArticles = () => {
     return db.query(`
-    SELECT * FROM articles
-    ;
+    SELECT title, topic, author, article_id, created_at, votes, article_img_url, COUNT(article_id) AS comment_count
+FROM articles
+GROUP BY article_id
+ORDER BY created_at DESC;
+
     `).then((result) => {
         const data = result.rows
         return data;
@@ -13,3 +16,15 @@ const getAllArticles = () => {
 
 
 module.exports = { getAllArticles }
+
+
+
+
+// SELECT * FROM articles
+    
+//     ORDER BY created_at DESC
+//     ;
+
+
+// SELECT author, title, article_id, topic, created_at, votes, article_img_url, COUNT(article_id) as comment_count
+// from articles
