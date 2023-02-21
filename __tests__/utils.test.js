@@ -74,7 +74,7 @@ describe("createRef", () => {
   });
 });
 
-describe.only("formatComments", () => {
+describe("formatComments", () => {
   test("returns an empty array, if passed an empty array", () => {
     const comments = [];
     expect(formatComments(comments, {})).toEqual([]);

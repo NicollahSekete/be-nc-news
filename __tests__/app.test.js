@@ -12,14 +12,32 @@ describe("app", () => {
     describe("GET /api/articles", () => {
         test("should return an array of objects with properties", () => {
             return request(app).get('/api/articles').expect(200).then((res) => {
-                console.log(res.body)
-                // expect(res.body.topics[0]).toMatchObject({
-                //     slug: expect.any(String),
-                //     description: expect.any(String)
-                // })
-                // expect(typeof res.body.topics).toBe("object")
+                expect(res.body.articles[0]).toMatchObject({
+                    title: expect.any(String),
+                    topic: expect.any(String),
+                    author: expect.any(String),
+                    article_id: expect.any(Number),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                    article_img_url: expect.any(String),
+                    comment_count: expect.any(String),
+                })
+                expect(typeof res.body.articles).toBe("object")
             })
 
         });
+        test(" should return sorted created_at date in descending order", () => {
+            return request(app).get('/api/articles').expect(200).then((res) => {
+                expect(res.body.articles).toBeSortedBy('created_at', {
+                    descending: true,
+                    coerce: true,
+                });
+            })
+        });
+        test("should return articles with expected length", () => {
+            return request(app).get('/api/articles').expect(200).then((res) => {
+                expect(res.body.articles).toHaveLength(12);
+            })
+        })
     })
 });

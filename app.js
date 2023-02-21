@@ -7,6 +7,4 @@ const { fetchAllArticles } = require('./controllers/fetchAllArticlesController')
 app.get("/api/articles", fetchAllArticles)
 
 
-
-
 module.exports = app
