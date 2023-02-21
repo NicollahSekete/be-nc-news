@@ -9,6 +9,14 @@ afterAll(() => db.end())
 
 
 describe("app", () => {
+    describe("/api", () => {
+        test("should return 404 when route does not exist", () => {
+            return request(app).get('/api/topic').expect(404).then((res) => {
+                expect(res.body.msg).toBe('Path not found')
+            })
+        });
+    })
+
     describe("GET /api/topics", () => {
         test("should return an array of objects with properties of slug and description", () => {
             return request(app).get('/api/topics').expect(200).then((res) => {
@@ -18,12 +26,6 @@ describe("app", () => {
                 })
                 expect(typeof res.body.topics).toBe("object")
                 expect(res.body.topics).toHaveLength(3)
-            })
-
-        });
-        test("should return 404 when route does not exist", () => {
-            return request(app).get('/api/topic').expect(404).then((res) => {
-                expect(res.body.msg).toBe('Path not found')
             })
 
         });
