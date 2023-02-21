@@ -16,15 +16,3 @@ ORDER BY created_at DESC;
 
 
 module.exports = { getAllArticles }
-
-
-
-
-// SELECT * FROM articles
-    
-//     ORDER BY created_at DESC
-//     ;
-
-
-// SELECT author, title, article_id, topic, created_at, votes, article_img_url, COUNT(article_id) as comment_count
-// from articles
