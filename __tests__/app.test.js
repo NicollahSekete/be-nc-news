@@ -10,7 +10,7 @@ afterAll(() => db.end())
 
 describe("app", () => {
     describe("GET /api/topics", () => {
-        test.only("should return an array of objects with properties of slug and description", () => {
+        test("should return an array of objects with properties of slug and description", () => {
             return request(app).get('/api/topics').expect(200).then((res) => {
                 expect(res.body.topics[0]).toMatchObject({
                     slug: expect.any(String),
@@ -23,8 +23,7 @@ describe("app", () => {
         });
         test("should return 404 when route does not exist", () => {
             return request(app).get('/api/topic').expect(404).then((res) => {
-
-                expect(res.res.statusMessage).toBe('Not Found')
+                expect(res.body.msg).toBe('Path not found')
             })
 
         });

@@ -7,9 +7,6 @@ const getAllTopics = () => {
     ;
     `).then((result) => {
         const data = result.rows
-        if (!data) {
-            return Promise.reject('table not found')
-        }
         return data;
     });
 
