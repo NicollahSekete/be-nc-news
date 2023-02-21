@@ -1,6 +1,6 @@
 const handles500Errors = (err, req, res, next) => {
     if (err.status && err.msg) {
-        response.status(404).send({ msg: err.msg })
+        response.status(500).send({ msg: err.msg })
     } else {
         next(err)
     }
@@ -19,4 +19,4 @@ const handles400Errors = (err, req, res, next) => {
 
 
 
-module.exports = { handles500Errors, handles400Errors}
+module.exports = { handles500Errors, handles400Errors }
