@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 app.use(express.json())
-const { fetchAllTopics } = require('./controllers/controllers')
+const { fetchAllTopics } = require('./controllers/fetchAllTopicsController')
 const { handles500Errors, handles400Errors } = require('./handlesErrors')
 
 app.get("/api/topics", fetchAllTopics)
