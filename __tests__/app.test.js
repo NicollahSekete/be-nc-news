@@ -47,6 +47,7 @@ describe("app", () => {
 
         })
     })
+
     describe("/api", () => {
         test("should return 404 when route does not exist", () => {
             return request(app).get('/api/topic').expect(404).then((res) => {
@@ -65,9 +66,16 @@ describe("app", () => {
                 expect(typeof res.body.topics).toBe("object")
                 expect(res.body.topics).toHaveLength(3)
             })
-
         });
-
     })
 
+    describe.only("GET /api/articles/:article_id/comments", () => {
+        test("should return comments by article id", () => {
+            return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
+                const result = res.body.comments
+                console.log(result)
+
+            })
+        });
+    })
 });
