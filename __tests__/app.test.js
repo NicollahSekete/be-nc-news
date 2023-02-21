@@ -26,7 +26,7 @@ describe("app", () => {
             })
 
         });
-        test(" should return sorted created_at date in descending order", () => {
+        test("should return sorted created_at date in descending order", () => {
             return request(app).get('/api/articles').expect(200).then((res) => {
                 expect(res.body.articles).toBeSortedBy('created_at', {
                     descending: true,
@@ -38,6 +38,13 @@ describe("app", () => {
             return request(app).get('/api/articles').expect(200).then((res) => {
                 expect(res.body.articles).toHaveLength(12);
             })
+        })
+        test("checks comment_count returns expected value", () => {
+            return request(app).get('/api/articles').expect(200).then((res) => {
+                const checkCommentCount = Number(res.body.articles[0].comment_count);
+                expect(checkCommentCount).toBe(1)
+            })
+
         })
     })
 });
