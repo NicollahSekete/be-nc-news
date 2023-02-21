@@ -70,4 +70,43 @@ describe("app", () => {
 
     })
 
+    describe("GET /api/articles/article_id", () => {
+        test("should return a single", () => {
+            return request(app).get("/api/articles/6").expect(200).then((res) => {
+                const result = res.body.article
+                expect(result).toHaveLength(1)
+            })
+        })
+        test("should return an array object with properties", () => {
+            return request(app).get("/api/articles/6").expect(200).then((res) => {
+                const result = res.body.article[0]
+                expect(result).toMatchObject({
+                    title: expect.any(String),
+                    topic: expect.any(String),
+                    author: expect.any(String),
+                    article_id: expect.any(Number),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                    article_img_url: expect.any(String),
+                    body: expect.any(String),
+                })
+                expect(typeof result).toBe("object")
+            })
+        })
+
+        test("should return 404 when valid but non existent id is passed", () => {
+            return request(app).get("/api/articles/1000").expect(404).then(({ body }) => {
+                expect(body.msg).toBe('Not Found')
+
+            })
+        })
+
+        test("should return 400 when invalid  id is passed", () => {
+            return request(app).get("/api/articles/banana").expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+        })
+
+    })
+
 });
