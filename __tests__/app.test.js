@@ -3,6 +3,7 @@ const app = require('../app')
 const db = require('../db/connection.js')
 const seed = require('../db/seeds/seed')
 const testData = require('../db/data/test-data')
+const { text } = require('express')
 
 beforeEach(() => seed(testData))
 afterAll(() => db.end())
@@ -72,16 +73,16 @@ describe("app", () => {
 
     describe("GET /api/articles/article_id", () => {
         test("should return a single object", () => {
-            return request(app).get("/api/articles/6").expect(200).then(({body}) => {
+            return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
                 const { article } = body;
                 expect(typeof article).toBe("object")
-                
+
             })
         })
         test("should return an object with expected properties", () => {
             return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
                 const { article } = body;
-                
+
                 expect(article).toMatchObject({
                     title: expect.any(String),
                     topic: expect.any(String),
@@ -92,7 +93,7 @@ describe("app", () => {
                     article_img_url: expect.any(String),
                     body: expect.any(String),
                 })
-               
+
             })
         })
 
@@ -109,6 +110,52 @@ describe("app", () => {
             })
         })
 
+    })
+
+    describe("POST /api/articles/:article_id/comments", () => {
+        test("should return expected user and comment", () => {
+            return request(app).post("/api/articles/2/comments").send({
+                username: 'icellusedkars',
+                body: 'such a big fan wow'
+            }).expect(201).then((res) => {
+
+                const comment = res.body.comment
+
+                expect(comment.body).toBe("such a big fan wow");
+                expect(comment.author).toBe("icellusedkars");
+                expect(comment.article_id).toBe(2);
+                expect(comment.votes).toBe(0);
+
+                expect(comment).toMatchObject({
+                    comment_id: expect.any(Number),
+                    votes: expect.any(Number),
+                    created_at: expect.any(String),
+                    author: expect.any(String),
+                    body: expect.any(String),
+                    article_id: expect.any(Number),
+                });
+            })
+        })
+
+        test("expect 400 when missing username", ()=>{
+            return request(app).post("/api/articles/2/comments").send({
+                username: '',
+                body: 'such a big fan wow'
+            }).expect(400).then(({body}) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+
+        })
+
+        test("expect 400 when missing body", ()=>{
+            return request(app).post("/api/articles/2/comments").send({
+                username: 'icellusedkars',
+                body: ''
+            }).expect(400).then(({body}) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+
+        })
     })
 
 });
