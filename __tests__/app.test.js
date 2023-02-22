@@ -9,6 +9,13 @@ afterAll(() => db.end())
 
 
 describe("app", () => {
+    describe("/api", () => {
+        test("should return 404 when route does not exist", () => {
+            return request(app).get('/api/topic').expect(404).then((res) => {
+                expect(res.body.msg).toBe('Path not found')
+            })
+        });
+    })
     describe("GET /api/articles", () => {
         test("should return an array of objects with properties", () => {
             return request(app).get('/api/articles').expect(200).then((res) => {
@@ -48,14 +55,6 @@ describe("app", () => {
         })
     })
 
-    describe("/api", () => {
-        test("should return 404 when route does not exist", () => {
-            return request(app).get('/api/topic').expect(404).then((res) => {
-                expect(res.body.msg).toBe('Path not found')
-            })
-        });
-    })
-
     describe("GET /api/topics", () => {
         test("should return an array of objects with properties of slug and description", () => {
             return request(app).get('/api/topics').expect(200).then((res) => {
@@ -69,7 +68,7 @@ describe("app", () => {
         });
     })
 
-    describe.only("GET /api/articles/:article_id/comments", () => {
+    describe("GET /api/articles/:article_id/comments", () => {
         test("should return an array of objects with expected properties", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments[0]
@@ -85,9 +84,11 @@ describe("app", () => {
 
             })
         });
+
         test("should return an array of objects in order", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
+
                 expect(result).toBeSortedBy('created_at', {
                     descending: true,
                     coerce: true,
@@ -95,33 +96,39 @@ describe("app", () => {
             })
         });
 
-        // test("should return 404 when valid but non existent id is passed", () => {
-        //     return request(app).get("/api/articles/1000/comments").expect(404).then(({ body }) => {
-        //         expect(body.msg).toBe('Not Found')
+        test("should return 404 when valid but non existent id is passed", () => {
+            return request(app).get("/api/articles/1000/comments").expect(404).then(({ body }) => {
+                expect(body.msg).toBe('Not Found')
 
-        //     })
-        // })
+            })
+        })
 
-        // test("should return 400 when invalid  id is passed", () => {
-        //     return request(app).get("/api/articles/banana/comments").expect(400).then(({ body }) => {
-        //         expect(body.msg).toBe('Bad Request')
-        //     })
-        // })
+        test("should return object with expected length", () => {
+            return request(app).get("/api/articles/3/comments").expect(200).then((res) => {
+
+                const result = res.body.comments
+                expect(typeof result).toBe("object")
+                expect(result).toHaveLength(2)
+
+            })
+
+        })
+
 
     })
-    
+
     describe("GET /api/articles/article_id", () => {
         test("should return a single object", () => {
-            return request(app).get("/api/articles/6").expect(200).then(({body}) => {
+            return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
                 const { article } = body;
                 expect(typeof article).toBe("object")
-                
+
             })
         })
         test("should return an object with expected properties", () => {
             return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
                 const { article } = body;
-                
+
                 expect(article).toMatchObject({
                     title: expect.any(String),
                     topic: expect.any(String),
@@ -132,7 +139,7 @@ describe("app", () => {
                     article_img_url: expect.any(String),
                     body: expect.any(String),
                 })
-               
+
             })
         })
 

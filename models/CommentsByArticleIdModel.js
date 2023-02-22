@@ -10,7 +10,12 @@ const getCommentsByArticleId = (article_id) => {
     ORDER BY created_at DESC
     `, [articleId]).then((result) => {
         const data = result.rows
-        return data;
+
+        if (data && data.length === 0) {
+            return Promise.reject('article not found')
+        } else {
+            return data;
+        }
     });
 
 }
