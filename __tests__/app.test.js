@@ -71,16 +71,18 @@ describe("app", () => {
     })
 
     describe("GET /api/articles/article_id", () => {
-        test("should return a single", () => {
-            return request(app).get("/api/articles/6").expect(200).then((res) => {
-                const result = res.body.article
-                expect(result).toHaveLength(1)
+        test("should return a single object", () => {
+            return request(app).get("/api/articles/6").expect(200).then(({body}) => {
+                const { article } = body;
+                expect(typeof article).toBe("object")
+                
             })
         })
-        test("should return an array object with properties", () => {
-            return request(app).get("/api/articles/6").expect(200).then((res) => {
-                const result = res.body.article[0]
-                expect(result).toMatchObject({
+        test("should return an object with expected properties", () => {
+            return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
+                const { article } = body;
+                
+                expect(article).toMatchObject({
                     title: expect.any(String),
                     topic: expect.any(String),
                     author: expect.any(String),
@@ -90,7 +92,7 @@ describe("app", () => {
                     article_img_url: expect.any(String),
                     body: expect.any(String),
                 })
-                expect(typeof result).toBe("object")
+               
             })
         })
 

@@ -8,13 +8,13 @@ const getArticleByArticleId = (article_id) => {
     } else {
         return db.query(`
         SELECT * FROM articles
-       WHERE article_id = ${articleId} ;
-        `).then((result) => {
+       WHERE article_id = $1
+        `,[articleId]).then((result) => {
             const data = result.rows
             if (data && data.length === 0) {
                 return Promise.reject('article not found')
             } else {
-                return data;
+                return data[0];
             }
         });
     }

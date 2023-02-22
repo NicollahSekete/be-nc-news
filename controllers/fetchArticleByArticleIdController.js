@@ -3,8 +3,8 @@ const { getArticleByArticleId } = require('../models/getArticleByArticleIdModel.
 const fetchArticleByArticleId = (req, res, next) => {
     const { article_id } = req.params;
 
-    getArticleByArticleId(article_id).then((articles) => {
-        res.status(200).send({ "article": articles });
+    getArticleByArticleId(article_id).then((article) => {
+        res.status(200).send({ "article": article });
     }).catch(err => {
         next(err)
     })
