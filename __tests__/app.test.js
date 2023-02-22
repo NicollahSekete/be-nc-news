@@ -68,20 +68,22 @@ describe("app", () => {
         });
     })
 
-    describe("GET /api/articles/:article_id/comments", () => {
+    describe.only("GET /api/articles/:article_id/comments", () => {
         test("should return an array of objects with expected properties", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
-                const result = res.body.comments[0]
+                const result = res.body.comments
 
-                expect(result).toMatchObject({
-                    comment_id: expect.any(Number),
-                    votes: expect.any(Number),
-                    created_at: expect.any(String),
-                    author: expect.any(String),
-                    body: expect.any(String),
-                    article_id: expect.any(Number)
-                })
-
+                for (var key in result) {
+                    var obj = result[key];
+                    expect(obj).toMatchObject({
+                        comment_id: expect.any(Number),
+                        votes: expect.any(Number),
+                        created_at: expect.any(String),
+                        author: expect.any(String),
+                        body: expect.any(String),
+                        article_id: expect.any(Number)
+                    })
+                }
             })
         });
 
@@ -103,11 +105,17 @@ describe("app", () => {
             })
         })
 
+        test("should return 400 when invalid id is passed", () => {
+            return request(app).get("/api/articles/error/comments").expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+        })
+
         test("should return object with expected length", () => {
             return request(app).get("/api/articles/3/comments").expect(200).then((res) => {
 
                 const result = res.body.comments
-                expect(typeof result).toBe("object")
+                expect(Array.isArray(result)).toBe(true)
                 expect(result).toHaveLength(2)
 
             })
