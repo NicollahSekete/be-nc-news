@@ -19,7 +19,9 @@ const handlesCustomErrors = (err, req, res, next) => {
         res.status(404).send({ msg: 'Not Found' })
     }else if(err === 'invalid id'){
         res.status(400).send({ msg: 'Bad Request' })
-    } else {
+    }else if(err === 'Invalid input'){
+        res.status(400).send({ msg: 'Bad Request' })
+    }else {
         next(err)
     }
 }

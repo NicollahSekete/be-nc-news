@@ -72,16 +72,16 @@ describe("app", () => {
 
     describe("GET /api/articles/article_id", () => {
         test("should return a single object", () => {
-            return request(app).get("/api/articles/6").expect(200).then(({body}) => {
+            return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
                 const { article } = body;
                 expect(typeof article).toBe("object")
-                
+
             })
         })
         test("should return an object with expected properties", () => {
             return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
                 const { article } = body;
-                
+
                 expect(article).toMatchObject({
                     title: expect.any(String),
                     topic: expect.any(String),
@@ -92,7 +92,7 @@ describe("app", () => {
                     article_img_url: expect.any(String),
                     body: expect.any(String),
                 })
-               
+
             })
         })
 
@@ -109,6 +109,42 @@ describe("app", () => {
             })
         })
 
+    })
+
+    describe("PATCH /api/articles/:article_id", () => {
+        test("Should return  article with updated votes from given article_id", () => {
+            return request(app).patch("/api/articles/1").send({ inc_votes: 10 }).expect(200).then(({ body }) => {
+                const { article } = body;
+                expect(article.article_id).toBe(1);
+                expect(article.votes).toBe(110);
+                expect(article).toMatchObject({
+                    author: expect.any(String),
+                    title: expect.any(String),
+                    article_id: expect.any(Number),
+                    topic: expect.any(String),
+                    created_at: expect.any(String),
+                    votes: expect.any(Number),
+                    article_img_url: expect.any(String),
+                    body: expect.any(String),
+                });
+            });
+        })
+        test("should return 400 when no inc_votes is given", () => {
+            return request(app)
+                .patch("/api/articles/1")
+                .send({})
+                .expect(400)
+                .then(({ body }) => {
+                    expect(body.msg).toBe("Bad Request")
+                })
+
+        })
+        test("should return 404 when valid but non existent id is passed", () => {
+            return request(app).patch('/api/articles/1000').send({ inc_votes: 1 }).expect(404)
+                .then(({ body }) => {
+                    expect(body.msg).toBe("Not Found")
+                })
+        })
     })
 
 });
