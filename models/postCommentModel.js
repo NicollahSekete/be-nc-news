@@ -1,8 +1,6 @@
 const db = require('../db/connection.js')
 
 const postComment = (article_id, username, body) => {
-    console.log('bodyyy' + body)
-
 
     if (username === "") {
         return Promise.reject('username is required')
