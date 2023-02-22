@@ -1,8 +1,9 @@
 const { getAllArticles } = require('../models/getAllArticlesModel.js')
 
 const fetchAllArticles = (req, res, next) => {
+    const { topic, sort_by, order } = req.query;
 
-    getAllArticles().then((articles) => {
+    getAllArticles(topic, sort_by, order).then((articles) => {
         res.status(200).send({ "articles": articles });
     }).catch(err => {
         next(err)
