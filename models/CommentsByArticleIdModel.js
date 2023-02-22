@@ -6,10 +6,9 @@ const getCommentsByArticleId = (article_id) => {
 
     return db.query(`
     SELECT * FROM comments
-    WHERE article_id = ${articleId}
-    ;
-
-    `).then((result) => {
+    WHERE article_id = $1
+    ORDER BY created_at DESC
+    `, [articleId]).then((result) => {
         const data = result.rows
         return data;
     });

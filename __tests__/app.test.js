@@ -70,12 +70,43 @@ describe("app", () => {
     })
 
     describe.only("GET /api/articles/:article_id/comments", () => {
-        test("should return comments by article id", () => {
+        test("should return an array of objects with expected properties", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
-                const result = res.body.comments
-                console.log(result)
+                const result = res.body.comments[0]
+
+                expect(result).toMatchObject({
+                    comment_id: expect.any(Number),
+                    votes: expect.any(Number),
+                    created_at: expect.any(String),
+                    author: expect.any(String),
+                    body: expect.any(String),
+                    article_id: expect.any(Number)
+                })
 
             })
         });
+        test("should return an array of objects in order", () => {
+            return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
+                const result = res.body.comments
+                expect(result).toBeSortedBy('created_at', {
+                    descending: true,
+                    coerce: true,
+                });
+            })
+        });
+
+        // test("should return 404 when valid but non existent id is passed", () => {
+        //     return request(app).get("/api/articles/1000/comments").expect(404).then(({ body }) => {
+        //         expect(body.msg).toBe('Not Found')
+
+        //     })
+        // })
+
+        // test("should return 400 when invalid  id is passed", () => {
+        //     return request(app).get("/api/articles/banana/comments").expect(400).then(({ body }) => {
+        //         expect(body.msg).toBe('Bad Request')
+        //     })
+        // })
+
     })
 });
