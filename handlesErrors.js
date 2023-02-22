@@ -1,6 +1,6 @@
 const handles500Errors = (err, req, res, next) => {
     if (err.status && err.msg) {
-        response.status(500).send({ msg: err.msg })
+        res.status(500).send({ msg: err.msg })
     } else {
         next(err)
     }
@@ -8,15 +8,20 @@ const handles500Errors = (err, req, res, next) => {
 
 const handles400Errors = (err, req, res, next) => {
     if (err.status && err.msg) {
-        response.status(400).send({ msg: err.msg })
+        res.status(400).send({ msg: err.msg })
     } else {
         next(err)
     }
 }
 
+const handlesCustomErrors = (err, req, res, next) => {
+    if (err === 'article not found') {
+        res.status(404).send({ msg: 'Not Found' })
+    }else if(err === 'invalid id'){
+        res.status(400).send({ msg: 'Bad Request' })
+    } else {
+        next(err)
+    }
+}
 
-
-
-
-
-module.exports = { handles500Errors, handles400Errors }
+module.exports = { handles500Errors, handles400Errors, handlesCustomErrors }
