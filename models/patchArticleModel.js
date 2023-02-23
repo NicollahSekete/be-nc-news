@@ -6,6 +6,10 @@ const patchArticle = (article_id, inc_votes) => {
         return Promise.reject('Invalid input');
     }
 
+    if(isNaN(inc_votes)){
+        return Promise.reject('invalid id')
+    }
+
     return db.query(`UPDATE articles
     SET votes=votes + $1 
     WHERE article_id=$2 

@@ -117,6 +117,7 @@ describe("app", () => {
                 const { article } = body;
                 expect(article.article_id).toBe(1);
                 expect(article.votes).toBe(110);
+
                 expect(article).toMatchObject({
                     author: expect.any(String),
                     title: expect.any(String),
@@ -137,12 +138,20 @@ describe("app", () => {
                 .then(({ body }) => {
                     expect(body.msg).toBe("Bad Request")
                 })
-
         })
+
         test("should return 404 when valid but non existent id is passed", () => {
             return request(app).patch('/api/articles/1000').send({ inc_votes: 1 }).expect(404)
                 .then(({ body }) => {
                     expect(body.msg).toBe("Not Found")
+                })
+        })
+
+
+        test("should return 400 responds when inc_votes in non-numeric", () => {
+            return request(app).patch('/api/articles/1000').send({ inc_votes: "three" }).expect(400)
+                .then(({ body }) => {
+                    expect(body.msg).toBe("Bad Request")
                 })
         })
     })
