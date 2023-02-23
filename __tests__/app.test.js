@@ -8,7 +8,7 @@ beforeEach(() => seed(testData))
 afterAll(() => db.end())
 
 
-describe("app", () => {
+describe.only("app", () => {
     describe("GET /api/articles", () => {
         test("should return an array of objects with properties", () => {
             return request(app).get('/api/articles').expect(200).then((res) => {
@@ -47,6 +47,15 @@ describe("app", () => {
 
         })
     })
+
+    describe.only(" GET /api/articles (queries)", () => {
+        test("should return articles with expected length", () => {
+            return request(app).get('/api/articles').expect(200).then((res) => {
+                expect(res.body.articles).toHaveLength(12);
+            })
+        })
+    })
+
     describe("/api", () => {
         test("should return 404 when route does not exist", () => {
             return request(app).get('/api/topic').expect(404).then((res) => {
@@ -72,16 +81,16 @@ describe("app", () => {
 
     describe("GET /api/articles/article_id", () => {
         test("should return a single object", () => {
-            return request(app).get("/api/articles/6").expect(200).then(({body}) => {
+            return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
                 const { article } = body;
                 expect(typeof article).toBe("object")
-                
+
             })
         })
         test("should return an object with expected properties", () => {
             return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
                 const { article } = body;
-                
+
                 expect(article).toMatchObject({
                     title: expect.any(String),
                     topic: expect.any(String),
@@ -92,7 +101,7 @@ describe("app", () => {
                     article_img_url: expect.any(String),
                     body: expect.any(String),
                 })
-               
+
             })
         })
 
