@@ -3,6 +3,7 @@ const app = require('../app')
 const db = require('../db/connection.js')
 const seed = require('../db/seeds/seed')
 const testData = require('../db/data/test-data')
+const { text } = require('express')
 
 beforeEach(() => seed(testData))
 afterAll(() => db.end())
@@ -166,6 +167,86 @@ describe("app", () => {
                 expect(body.msg).toBe('Bad Request')
             })
         })
+
+    })
+
+    describe("POST /api/articles/:article_id/comments", () => {
+        test("should return expected user and comment", () => {
+            return request(app).post("/api/articles/2/comments").send({
+                username: 'icellusedkars',
+                body: 'such a big fan wow'
+            }).expect(201).then((res) => {
+                const comment = res.body.comment
+
+                expect(comment.body).toBe("such a big fan wow");
+                expect(comment.author).toBe("icellusedkars");
+                expect(comment.article_id).toBe(2);
+                expect(comment.comment_id).toBe(19);
+                expect(comment.votes).toBe(0);
+            })
+        })
+
+        test("should return expected user and comment and ignore  unnecessary properties", () => {
+            return request(app).post("/api/articles/2/comments").send({
+                username: 'icellusedkars',
+                body: 'such a big fan wow',
+                votes: 100
+            }).expect(201).then((res) => {
+                const comment = res.body.comment
+                expect(comment.votes).toBe(0);
+            })
+        })
+
+        test("expect 400 when missing username", () => {
+            return request(app).post("/api/articles/2/comments").send({
+                username: '',
+                body: 'such a big fan wow'
+            }).expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+
+        })
+
+        test("expect 400 when missing body", () => {
+            return request(app).post("/api/articles/2/comments").send({
+                username: 'icellusedkars',
+                body: ''
+            }).expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+
+        })
+
+        test("expect 400 when missing both username and body", () => {
+            return request(app).post("/api/articles/2/comments").send({
+                username: '',
+                body: ''
+            }).expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+
+        })
+
+
+        test("expect 400 when when invalid id is passed", () => {
+            return request(app).post("/api/articles/invalid/comments").send({
+                username: 'icellusedkars',
+                body: 'heres the body'
+            }).expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+        })
+
+
+        test("expect 404 when valid but non existent id is passed", () => {
+            return request(app).post("/api/articles/7777777/comments").send({
+                username: 'icellusedkars',
+                body: 'iceing'
+            }).expect(404).then(({ body }) => {
+                expect(body.msg).toBe('Not Found')
+            })
+        })
+
 
     })
 

@@ -29,6 +29,10 @@ const handlesCustomErrors = (err, req, res, next) => {
         res.status(404).send({ msg: 'Not Found' })
     } else if (err === 'invalid id') {
         res.status(400).send({ msg: 'Bad Request' })
+    } else if (err === 'username is required') {
+        res.status(400).send({ msg: 'Bad Request' })
+    } else if (err === 'body is required') {
+        res.status(400).send({ msg: 'Bad Request' })
     } else {
         next(err)
     }
