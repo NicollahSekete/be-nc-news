@@ -72,8 +72,8 @@ describe("app", () => {
         test("should return an array of objects with expected properties", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
-                result.forEach((element) => {
-                    if (result.length != 0) {
+                if (result.length != 0) {
+                    result.forEach((element) => {
                         expect(element).toMatchObject({
                             comment_id: expect.any(Number),
                             votes: expect.any(Number),
@@ -82,8 +82,8 @@ describe("app", () => {
                             body: expect.any(String),
                             article_id: expect.any(Number)
                         })
-                    }
-                });
+                    });
+                }
             })
         });
 
@@ -91,8 +91,7 @@ describe("app", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
                 expect(result).toBeSortedBy('created_at', {
-                    descending: true,
-                    coerce: true,
+                    descending: true
                 });
             })
         });
