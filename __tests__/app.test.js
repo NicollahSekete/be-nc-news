@@ -230,7 +230,7 @@ describe("app", () => {
             })
         })
     })
-    
+
     describe("POST /api/articles/:article_id/comments", () => {
         test("should return expected user and comment", () => {
             return request(app).post("/api/articles/2/comments").send({
