@@ -118,46 +118,78 @@ describe("app", () => {
                 username: 'icellusedkars',
                 body: 'such a big fan wow'
             }).expect(201).then((res) => {
-
                 const comment = res.body.comment
 
                 expect(comment.body).toBe("such a big fan wow");
                 expect(comment.author).toBe("icellusedkars");
                 expect(comment.article_id).toBe(2);
+                expect(comment.comment_id).toBe(19);
                 expect(comment.votes).toBe(0);
-
-                expect(comment).toMatchObject({
-                    comment_id: expect.any(Number),
-                    votes: expect.any(Number),
-                    created_at: expect.any(String),
-                    author: expect.any(String),
-                    body: expect.any(String),
-                    article_id: expect.any(Number),
-                });
             })
         })
 
-        test("expect 400 when missing username", ()=>{
+        test("should return expected user and comment and ignore  unnecessary properties", () => {
+            return request(app).post("/api/articles/2/comments").send({
+                username: 'icellusedkars',
+                body: 'such a big fan wow',
+                votes: 100
+            }).expect(201).then((res) => {
+                const comment = res.body.comment
+                expect(comment.votes).toBe(0);
+            })
+        })
+
+        test("expect 400 when missing username", () => {
             return request(app).post("/api/articles/2/comments").send({
                 username: '',
                 body: 'such a big fan wow'
-            }).expect(400).then(({body}) => {
+            }).expect(400).then(({ body }) => {
                 expect(body.msg).toBe('Bad Request')
             })
 
         })
 
-        test("expect 400 when missing body", ()=>{
+        test("expect 400 when missing body", () => {
             return request(app).post("/api/articles/2/comments").send({
                 username: 'icellusedkars',
                 body: ''
-            }).expect(400).then(({body}) => {
+            }).expect(400).then(({ body }) => {
                 expect(body.msg).toBe('Bad Request')
             })
 
         })
 
-        
+        test("expect 400 when missing both username and body", () => {
+            return request(app).post("/api/articles/2/comments").send({
+                username: '',
+                body: ''
+            }).expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+
+        })
+
+
+        test("expect 400 when missing body", () => {
+            return request(app).post("/api/articles/noNumber/comments").send({
+                username: 'icellusedkars',
+                body: 'heres the body'
+            }).expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+        })
+
+
+        test("expect 404 when missing body", () => {
+            return request(app).post("/api/articles/7777777/comments").send({
+                username: 'icellusedkars',
+                body: 'iceing'
+            }).expect(404).then(({ body }) => {
+                expect(body.msg).toBe('Not Found')
+            })
+        })
+
+
     })
 
 });
