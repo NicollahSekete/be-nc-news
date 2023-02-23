@@ -27,15 +27,17 @@ const handlePsql400Errors = (err, req, res, next) => {
 const handlesCustomErrors = (err, req, res, next) => {
     if (err === 'article not found') {
         res.status(404).send({ msg: 'Not Found' })
+    } else if (err === 'input not found') {
+        res.status(404).send({ msg: 'Not Found' })
     } else if (err === 'invalid id') {
         res.status(400).send({ msg: 'Bad Request' })
     } else if (err === 'username is required') {
         res.status(400).send({ msg: 'Bad Request' })
     } else if (err === 'body is required') {
         res.status(400).send({ msg: 'Bad Request' })
-    }else if(err === 'Invalid input'){
+    } else if (err === 'Invalid input') {
         res.status(400).send({ msg: 'Bad Request' })
-    }else {
+    } else {
         next(err)
     }
 }
