@@ -213,6 +213,24 @@ describe("app", () => {
         })
     })
 
+    describe(" GET /api/users", () => {
+        test("should return all users", () => {
+            return request(app).get('/api/users').expect(200).then(({ body }) => {
+                const { users } = body;
+                expect(Array.isArray(users)).toBe(true);
+                expect(users.length).toBeGreaterThan(0)
+                users.forEach((element) => {
+                    expect(element).toMatchObject({
+                        username: expect.any(String),
+                        name: expect.any(String),
+                        avatar_url: expect.any(String),
+
+                    })
+                });
+            })
+        })
+    })
+    
     describe("POST /api/articles/:article_id/comments", () => {
         test("should return expected user and comment", () => {
             return request(app).post("/api/articles/2/comments").send({

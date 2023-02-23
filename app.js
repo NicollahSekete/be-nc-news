@@ -5,6 +5,7 @@ const { fetchArticleByArticleId } = require('./controllers/fetchArticleByArticle
 const { fetchAllTopics } = require('./controllers/fetchAllTopicsController')
 const { fetchAllArticles } = require('./controllers/fetchAllArticlesController')
 const { updateArticle } = require('./controllers/updateArticleController')
+const { fetchAllUsers } = require('./controllers/fetchAllUsersController')
 const { addComment } = require('./controllers/addCommentController')
 const { fetchCommentsByArticleId } = require('./controllers/fetchCommentsByArticleIdController')
 
@@ -17,6 +18,7 @@ app.get("/api/articles/:article_id/comments", fetchCommentsByArticleId)
 app.get("/api/articles", fetchAllArticles)
 app.patch("/api/articles/:article_id", updateArticle);
 app.post("/api/articles", fetchAllArticles)
+app.get("/api/users", fetchAllUsers)
 app.post("/api/articles/:article_id/comments", addComment)
 
 
