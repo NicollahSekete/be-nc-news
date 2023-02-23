@@ -73,9 +73,8 @@ describe("app", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
 
-                for (var key in result) {
-                    var obj = result[key];
-                    expect(obj).toMatchObject({
+                result.forEach((element, index) => {
+                    expect(element).toMatchObject({
                         comment_id: expect.any(Number),
                         votes: expect.any(Number),
                         created_at: expect.any(String),
@@ -83,7 +82,7 @@ describe("app", () => {
                         body: expect.any(String),
                         article_id: expect.any(Number)
                     })
-                }
+                });
             })
         });
 
