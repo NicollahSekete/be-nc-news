@@ -171,7 +171,7 @@ describe("app", () => {
 
 
         test("expect 400 when when invalid id is passed", () => {
-            return request(app).post("/api/articles/noNumber/comments").send({
+            return request(app).post("/api/articles/invalid/comments").send({
                 username: 'icellusedkars',
                 body: 'heres the body'
             }).expect(400).then(({ body }) => {
