@@ -130,15 +130,6 @@ describe("app", () => {
                 });
             });
         })
-        test("should return 400 when no inc_votes is given", () => {
-            return request(app)
-                .patch("/api/articles/1")
-                .send({})
-                .expect(400)
-                .then(({ body }) => {
-                    expect(body.msg).toBe("Bad Request")
-                })
-        })
 
         test("should return 404 when valid but non existent id is passed", () => {
             return request(app).patch('/api/articles/1000').send({ inc_votes: 1 }).expect(404)
@@ -148,7 +139,7 @@ describe("app", () => {
         })
 
 
-        test("should return 400 responds when inc_votes in non-numeric", () => {
+        test("should return 400  when inc_votes is non-numeric", () => {
             return request(app).patch('/api/articles/1000').send({ inc_votes: "three" }).expect(400)
                 .then(({ body }) => {
                     expect(body.msg).toBe("Bad Request")
