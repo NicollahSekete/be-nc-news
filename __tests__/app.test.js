@@ -17,7 +17,7 @@ describe("app", () => {
         });
     })
     describe("GET /api/articles", () => {
-        test.only("should return an array of objects with properties", () => {
+        test("should return an array of objects with properties", () => {
             return request(app).get('/api/articles').expect(200).then((res) => {
                 expect(res.body.articles[0]).toMatchObject({
                     title: expect.any(String),
@@ -73,15 +73,17 @@ describe("app", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
 
-                result.forEach((element, index) => {
-                    expect(element).toMatchObject({
-                        comment_id: expect.any(Number),
-                        votes: expect.any(Number),
-                        created_at: expect.any(String),
-                        author: expect.any(String),
-                        body: expect.any(String),
-                        article_id: expect.any(Number)
-                    })
+                result.forEach((element) => {
+                    if (result.length != 0) {
+                        expect(element).toMatchObject({
+                            comment_id: expect.any(Number),
+                            votes: expect.any(Number),
+                            created_at: expect.any(String),
+                            author: expect.any(String),
+                            body: expect.any(String),
+                            article_id: expect.any(Number)
+                        })
+                    }
                 });
             })
         });
@@ -96,7 +98,7 @@ describe("app", () => {
             })
         });
 
-        test.only("should return 200 and empty array when no associated comments exist with passed article_id ", () => {
+        test("should return 200 and empty array when no associated comments exist with passed article_id ", () => {
             return request(app).get('/api/articles/7/comments').expect(200).then((res) => {
                 const result = res.body.comments
                 expect(result).toEqual([])
