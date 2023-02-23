@@ -16,16 +16,18 @@ const handles400Errors = (err, req, res, next) => {
 
 const handlePsql400Errors = (err, req, res, next) => {
     if (err.code === "22P02") {
-      res.status(400).send({ msg: "Bad Request" });
+        res.status(400).send({ msg: "Bad Request" });
+    } else if (err.code === "23503") {
+        res.status(404).send({ msg: "Not found" });
     } else {
-      next(err);
+        next(err);
     }
-  };
+};
 
 const handlesCustomErrors = (err, req, res, next) => {
     if (err === 'article not found') {
         res.status(404).send({ msg: 'Not Found' })
-    }else if(err === 'invalid id'){
+    } else if (err === 'invalid id') {
         res.status(400).send({ msg: 'Bad Request' })
     } else {
         next(err)

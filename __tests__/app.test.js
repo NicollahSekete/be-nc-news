@@ -72,7 +72,6 @@ describe("app", () => {
         test("should return an array of objects with expected properties", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
-
                 result.forEach((element) => {
                     if (result.length != 0) {
                         expect(element).toMatchObject({
@@ -106,7 +105,7 @@ describe("app", () => {
         });
 
         test("should return 404 when valid but non existent id is passed", () => {
-            return request(app).get("/api/articles/1000/comments").expect(404).then(({ body }) => {
+            return request(app).get("/api/articles/1123123123/comments").expect(404).then(({ body }) => {
                 expect(body.msg).toBe('Not Found')
 
             })
@@ -120,7 +119,6 @@ describe("app", () => {
 
         test("should return object with expected length", () => {
             return request(app).get("/api/articles/3/comments").expect(200).then((res) => {
-
                 const result = res.body.comments
                 expect(Array.isArray(result)).toBe(true)
                 expect(result).toHaveLength(2)
