@@ -17,7 +17,7 @@ describe("app", () => {
         });
     })
     describe("GET /api/articles", () => {
-        test("should return an array of objects with properties", () => {
+        test.only("should return an array of objects with properties", () => {
             return request(app).get('/api/articles').expect(200).then((res) => {
                 expect(res.body.articles[0]).toMatchObject({
                     title: expect.any(String),
@@ -68,7 +68,7 @@ describe("app", () => {
         });
     })
 
-    describe.only("GET /api/articles/:article_id/comments", () => {
+    describe("GET /api/articles/:article_id/comments", () => {
         test("should return an array of objects with expected properties", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
@@ -89,11 +89,17 @@ describe("app", () => {
         test("should return an array of objects in order", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
-
                 expect(result).toBeSortedBy('created_at', {
                     descending: true,
                     coerce: true,
                 });
+            })
+        });
+
+        test.only("should return 200 and empty array when no associated comments exist with passed article_id ", () => {
+            return request(app).get('/api/articles/7/comments').expect(200).then((res) => {
+                const result = res.body.comments
+                expect(result).toEqual([])
             })
         });
 

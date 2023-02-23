@@ -11,7 +11,7 @@ const getCommentsByArticleId = (article_id) => {
     `, [articleId]).then((result) => {
         const data = result.rows
 
-        if (data && data.length === 0) {
+        if (!data) {
             return Promise.reject('article not found')
         } else {
             return data;
