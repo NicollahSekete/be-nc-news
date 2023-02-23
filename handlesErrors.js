@@ -33,7 +33,9 @@ const handlesCustomErrors = (err, req, res, next) => {
         res.status(400).send({ msg: 'Bad Request' })
     } else if (err === 'body is required') {
         res.status(400).send({ msg: 'Bad Request' })
-    } else {
+    }else if(err === 'Invalid input'){
+        res.status(400).send({ msg: 'Bad Request' })
+    }else {
         next(err)
     }
 }
