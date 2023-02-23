@@ -116,6 +116,7 @@ describe("app", () => {
             return request(app).get('/api/users').expect(200).then(({ body }) => {
                 const { users } = body;
                 expect(Array.isArray(users)).toBe(true);
+                expect(users.length).toBeGreaterThan(0)
                 users.forEach((element) => {
                     expect(element).toMatchObject({
                         username: expect.any(String),
