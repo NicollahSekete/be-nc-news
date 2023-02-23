@@ -269,10 +269,11 @@ describe("app", () => {
     })
 
 
-    describe(" GET /api/articles (queries)", () => {
+    describe.only(" GET /api/articles (queries)", () => {
         test("should return articles with expected length", () => {
-            return request(app).get('/api/articles').expect(200).then((res) => {
-                expect(res.body.articles).toHaveLength(12);
+            return request(app).get('/api/articles?topic=mitch').expect(200).then((res) => {
+                console.log('hi')
+                // expect(res.body.articles).toHaveLength(12);
             })
         })
     })

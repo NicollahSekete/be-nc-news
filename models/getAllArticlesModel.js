@@ -9,7 +9,7 @@ const getAllArticles = (topic, sort_by, order) => {
     ORDER BY created_at DESC;`
 
     const validOrderArguements = ['asc', 'desc', 'ASC', 'DESC']
-    
+
     const validSortArguements = ['title', 'author', 'article_id', 'created_at', 'votes', 'article_img_url', 'comment_count']
 
 
@@ -20,6 +20,9 @@ const getAllArticles = (topic, sort_by, order) => {
     })
 
 }
+
+
+
 
 
 module.exports = { getAllArticles }
