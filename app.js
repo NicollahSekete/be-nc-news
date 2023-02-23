@@ -4,6 +4,7 @@ app.use(express.json())
 const { fetchArticleByArticleId } = require('./controllers/fetchArticleByArticleIdController')
 const { fetchAllTopics } = require('./controllers/fetchAllTopicsController')
 const { fetchAllArticles } = require('./controllers/fetchAllArticlesController')
+const { fetchAllUsers } = require('./controllers/fetchAllUsersController')
 const { addComment } = require('./controllers/addCommentController')
 const { fetchCommentsByArticleId } = require('./controllers/fetchCommentsByArticleIdController')
 
@@ -14,7 +15,7 @@ app.get('/api/articles/:article_id', fetchArticleByArticleId)
 app.get("/api/topics", fetchAllTopics)
 app.get("/api/articles/:article_id/comments", fetchCommentsByArticleId)
 app.get("/api/articles", fetchAllArticles)
-app.post("/api/articles", fetchAllArticles)
+app.get("/api/users", fetchAllUsers)
 app.post("/api/articles/:article_id/comments", addComment)
 
 
