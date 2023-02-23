@@ -170,7 +170,7 @@ describe("app", () => {
         })
 
 
-        test("expect 400 when missing body", () => {
+        test("expect 400 when when invalid id is passed", () => {
             return request(app).post("/api/articles/noNumber/comments").send({
                 username: 'icellusedkars',
                 body: 'heres the body'
@@ -180,7 +180,7 @@ describe("app", () => {
         })
 
 
-        test("expect 404 when missing body", () => {
+        test("expect 404 when valid but non existent id is passed", () => {
             return request(app).post("/api/articles/7777777/comments").send({
                 username: 'icellusedkars',
                 body: 'iceing'
