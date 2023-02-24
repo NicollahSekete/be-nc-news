@@ -385,23 +385,16 @@ describe("app", () => {
             })
         })
 
-        test("400 - Bad request: Invalid sort_by query", () => {
+        test("should return 400 for Invalid sort_by query", () => {
             return request(app).get('/api/articles?sort_by=goat&order=asc').expect(400).then(({ body }) => {
                 expect(body.msg).toBe('Bad Request')
             })
         })
 
-        test("400 - Bad request: Invalid sort_by query", () => {
+        test("should return 400 for  Invalid order query", () => {
             return request(app).get('/api/articles?order=popularity').expect(400).then(({ body }) => {
                 expect(body.msg).toBe('Bad Request')
             })
         })
-
-
-
-
-
-
     })
-
 });
