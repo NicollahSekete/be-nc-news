@@ -15,4 +15,5 @@ const getAllArticles = () => {
 }
 
 
+
 module.exports = { getAllArticles }
