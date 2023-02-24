@@ -19,9 +19,76 @@
           "topic": "cooking",
           "author": "weegembump",
           "body": "Text from the article..",
-          "created_at": 1527695953341
+          "created_at": 1527695953341,
+          "comment_count": 2,
+          "article_img_url": "a_image_url",
+          "votes": 0
         }
       ]
+    }
+  },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "topics": [
+        { "username": "Elle", "name": "Woods", "avatar_url": "a_image_string" }
+      ]
+    }
+  },
+  "/api/articles/:article_id": {
+    "requirements": ":article_id must be numeric",
+    "GET": {
+      "description": "serves up an article including it's body",
+      "queries": [],
+      "exampleResponse": {
+        "article": [
+          {
+            "title": "Seafood substitutions are increasing",
+            "topic": "cooking",
+            "author": "weegembump",
+            "body": "Text from the article..",
+            "created_at": 1527695953341,
+            "comment_count": 2,
+            "article_img_url": "a_image_url",
+            "votes": 0
+          }
+        ]
+      }
+    },
+    "PATCH": {
+      "description": "increments the votes on an article using inc_votes, also allows decrementing",
+      "required fields": {
+        "inc_votes": "number"
+      }
+    }
+  },
+  "/api/articles/:article_id/comments": {
+    "requirements": ":article_id must be numeric",
+    "GET": {
+      "description": "serves up all comments for a given article_id",
+      "exampleResponse": {
+        "comments": [
+          {
+            "comment_id": 6,
+            "votes": 100,
+            "created_at": 1527695953341,
+            "author": "user",
+            "body": "lorem",
+            "article_id": 1
+          }
+        ]
+      }
+    },
+    "POST": {
+      "description": "posts a comment",
+      "required fields": {
+        "username": "string",
+        "body": "string"
+      }
+    },
+    "DELETE": {
+      "description": "delete a comment"
     }
   }
 }
