@@ -11,7 +11,6 @@ const { fetchCommentsByArticleId } = require('./controllers/fetchCommentsByArtic
 
 const { handles500Errors, handles400Errors, handlesCustomErrors, handlePsql400Errors } = require('./handlesErrors')
 
-
 app.get('/api/articles/:article_id', fetchArticleByArticleId)
 app.get("/api/topics", fetchAllTopics)
 app.get("/api/articles/:article_id/comments", fetchCommentsByArticleId)

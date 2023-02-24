@@ -27,7 +27,7 @@ describe("app", () => {
                     created_at: expect.any(String),
                     votes: expect.any(Number),
                     article_img_url: expect.any(String),
-                    comment_count: expect.any(String),
+                    comment_count: expect.any(Number),
                 })
                 expect(typeof res.body.articles).toBe("object")
             })
@@ -49,7 +49,7 @@ describe("app", () => {
         test("checks comment_count returns expected value", () => {
             return request(app).get('/api/articles').expect(200).then((res) => {
                 const checkCommentCount = Number(res.body.articles[0].comment_count);
-                expect(checkCommentCount).toBe(1)
+                expect(checkCommentCount).toBe(2)
             })
 
         })
@@ -322,4 +322,90 @@ describe("app", () => {
         })
     })
 
+
+    describe(" GET /api/articles (queries)", () => {
+        test("should return articles where topic is specified", () => {
+            return request(app).get('/api/articles?topic=mitch').expect(200).then(({ body }) => {
+                const { articles } = body
+                articles.forEach((element) => {
+                    expect(element).toMatchObject({
+                        title: expect.any(String),
+                        topic: expect.any(String),
+                        author: expect.any(String),
+                        article_id: expect.any(Number),
+                        created_at: expect.any(String),
+                        votes: expect.any(Number),
+                        article_img_url: expect.any(String),
+                        comment_count: expect.any(Number),
+                    })
+                });
+            })
+        })
+
+        test("should return articles where sortby is specified", () => {
+            return request(app).get('/api/articles?sort_by=author').expect(200).then(({ body }) => {
+                const { articles } = body
+                expect(articles).toBeSortedBy('author', {
+                    descending: true
+                });
+
+            })
+        })
+
+        test("should return articles  where order is specified", () => {
+            return request(app).get('/api/articles?order=asc').expect(200).then(({ body }) => {
+                const { articles } = body
+                expect(articles).toBeSortedBy('created_at', {
+                    descending: false
+                });
+
+            })
+        })
+
+        test("should return articles where sortby and order is specified", () => {
+            return request(app).get('/api/articles?sort_by=title&order=asc').expect(200).then(({ body }) => {
+                const { articles } = body
+
+                expect(articles).toBeSortedBy('title', {
+                    descending: false
+                });
+
+            })
+        })
+
+        test("should return articles where topic, sortby and order is specified", () => {
+            return request(app).get('/api/articles?topic=mitch&sort_by=article_id&order=asc').expect(200).then(({ body }) => {
+                const { articles } = body
+                expect(articles).toBeSortedBy('article_id', {
+                    descending: false
+                });
+            })
+        })
+
+        test("should empty array where topic specified exists but has no articles", () => {
+            return request(app).get('/api/articles?topic=paper').expect(200).then(({ body }) => {
+                const { articles } = body
+                expect(articles).toEqual([]);
+
+            })
+        })
+
+        test("should return 404 when queried by topic that does not exist", () => {
+            return request(app).get('/api/articles?topic=DontExist').expect(404).then(({ body }) => {
+                expect(body.msg).toBe('Not Found')
+            })
+        })
+
+        test("should return 400 for Invalid sort_by query", () => {
+            return request(app).get('/api/articles?sort_by=goat&order=asc').expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+        })
+
+        test("should return 400 for  Invalid order query", () => {
+            return request(app).get('/api/articles?order=popularity').expect(400).then(({ body }) => {
+                expect(body.msg).toBe('Bad Request')
+            })
+        })
+    })
 });
