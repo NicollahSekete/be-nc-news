@@ -13,13 +13,11 @@ const { removeComment } = require('./controllers/removeCommentController')
 
 const { handles500Errors, handles400Errors, handlesCustomErrors, handlePsql400Errors } = require('./handlesErrors')
 
-
 app.get('/api/articles/:article_id', fetchArticleByArticleId)
 app.get("/api/topics", fetchAllTopics)
 app.get("/api/articles/:article_id/comments", fetchCommentsByArticleId)
 app.get("/api/articles", fetchAllArticles)
 app.patch("/api/articles/:article_id", updateArticle);
-app.post("/api/articles", fetchAllArticles)
 app.get("/api/users", fetchAllUsers)
 app.post("/api/articles/:article_id/comments", addComment)
 app.delete("/api/comments/:comment_id", removeComment)
