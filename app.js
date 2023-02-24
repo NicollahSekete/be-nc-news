@@ -10,15 +10,20 @@ const { addComment } = require('./controllers/addCommentController')
 const { fetchCommentsByArticleId } = require('./controllers/fetchCommentsByArticleIdController')
 const { removeComment } = require('./controllers/removeCommentController')
 
+const { getAllEndpoints } = require('./controllers/getAllEndpointsController')
 
 const { handles500Errors, handles400Errors, handlesCustomErrors, handlePsql400Errors } = require('./handlesErrors')
 
-app.get('/api/articles/:article_id', fetchArticleByArticleId)
+
+
+app.get("/api", getAllEndpoints)
 app.get("/api/topics", fetchAllTopics)
-app.get("/api/articles/:article_id/comments", fetchCommentsByArticleId)
 app.get("/api/articles", fetchAllArticles)
-app.patch("/api/articles/:article_id", updateArticle);
 app.get("/api/users", fetchAllUsers)
+app.get('/api/articles/:article_id', fetchArticleByArticleId)
+app.get("/api/articles/:article_id/comments", fetchCommentsByArticleId)
+
+app.patch("/api/articles/:article_id", updateArticle);
 app.post("/api/articles/:article_id/comments", addComment)
 app.delete("/api/comments/:comment_id", removeComment)
 
