@@ -3,7 +3,6 @@ const app = require('../app')
 const db = require('../db/connection.js')
 const seed = require('../db/seeds/seed')
 const testData = require('../db/data/test-data')
-const { text } = require('express')
 
 beforeEach(() => seed(testData))
 afterAll(() => db.end())
@@ -72,6 +71,7 @@ describe("app", () => {
         test("should return an array of objects with expected properties", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
+
                 expect(result.length).toBeGreaterThan(0)
                 result.forEach((element) => {
                     expect(element).toMatchObject({
@@ -408,4 +408,32 @@ describe("app", () => {
             })
         })
     })
+
+    describe("DELETE /api/comments/:comment_id", () => {
+
+        test("should delete restaurant with corresponding id", () => {
+            return request(app).delete("/api/comments/6").expect(204).then(() => {
+                return db.query(`SELECT * FROM comments WHERE comment_id = 6;`);
+            }).then(({ data }) => {
+                expect(data).toBe(undefined);
+            });
+        })
+
+        test("should return 400 invalid ID", () => {
+            return request(app).delete("/api/comments/notAnId").expect(400).then(({ body }) => {
+
+                expect(body.msg).toBe('Bad Request')
+            });
+        })
+
+        test("should return 404 resource that does not exist", () => {
+            return request(app).delete("/api/comments/9999999").expect(404).then(({body}) => {
+
+                expect(body.msg).toBe('Not Found')
+            });
+        })
+
+    })
+
+
 });

@@ -1,16 +1,14 @@
 const db = require('../db/connection.js')
 
-const deleteComment = () => {
-    return db.query(`
-    SELECT title, topic, author, article_id, created_at, votes, article_img_url, COUNT(article_id) AS comment_count
-    FROM articles
-    GROUP BY article_id
-    ORDER BY created_at DESC;
+const deleteComment = (comment_id) => {
+    return db
+        .query(`DELETE FROM comments WHERE comment_id = $1 RETURNING *;`, [
+            comment_id,
+        ])
+        .then((comment) => {
 
-    `).then((result) => {
-        const data = result.rows
-        return data;
-    });
+            return comment;
+        });
 
 }
 
