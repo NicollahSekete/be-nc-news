@@ -52,7 +52,4 @@ const getAllArticles = (topic, sort_by, order, topicsExisting) => {
 
 
 
-
-
-
 module.exports = { getAllArticles }

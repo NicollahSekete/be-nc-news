@@ -16,7 +16,6 @@ app.get("/api/topics", fetchAllTopics)
 app.get("/api/articles/:article_id/comments", fetchCommentsByArticleId)
 app.get("/api/articles", fetchAllArticles)
 app.patch("/api/articles/:article_id", updateArticle);
-app.post("/api/articles", fetchAllArticles)
 app.get("/api/users", fetchAllUsers)
 app.post("/api/articles/:article_id/comments", addComment)
 
