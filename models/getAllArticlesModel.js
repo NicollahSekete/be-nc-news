@@ -19,9 +19,7 @@ const getAllArticles = (topic, sort_by, order, topicsExisting) => {
         return Promise.reject('Invalid input')
     }
 
-    let defaultQuery = `
-    SELECT title, topic, author, article_id, created_at, votes, article_img_url, COUNT(article_id) AS comment_count
-    FROM articles`
+    let defaultQuery = `SELECT articles.*, CAST(COUNT(comment_id) AS int) AS comment_count FROM articles LEFT JOIN comments ON comments.article_id=articles.article_id`
     const queryParams = [];
     
 
@@ -30,7 +28,7 @@ const getAllArticles = (topic, sort_by, order, topicsExisting) => {
         queryParams.push(topic)
     }
 
-    defaultQuery += ' GROUP BY article_id '
+    defaultQuery += ' GROUP BY articles.article_id '
 
 
     if (sort_by === undefined) {
@@ -43,7 +41,6 @@ const getAllArticles = (topic, sort_by, order, topicsExisting) => {
     }
 
     defaultQuery += ` ORDER BY ${sort_by} ${order}`
-
 
     return db.query(defaultQuery, queryParams)
         .then(({ rows }) => {
