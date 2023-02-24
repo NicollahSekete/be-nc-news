@@ -414,10 +414,8 @@ describe("app", () => {
     describe("DELETE /api/comments/:comment_id", () => {
 
         test("should delete restaurant with corresponding id", () => {
-            return request(app).delete("/api/comments/6").expect(204).then(() => {
-                return db.query(`SELECT * FROM comments WHERE comment_id = 6;`);
-            }).then(({ data }) => {
-                expect(data).toBe(undefined);
+            return request(app).delete("/api/comments/6").expect(204).then((res) => {
+                expect(res.body).toEqual({});
             });
         })
 
