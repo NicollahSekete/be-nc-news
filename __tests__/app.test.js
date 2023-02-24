@@ -8,7 +8,6 @@ const { text } = require('express')
 beforeEach(() => seed(testData))
 afterAll(() => db.end())
 
-
 describe("app", () => {
     describe("/api", () => {
         test("should return 404 when route does not exist", () => {
@@ -308,7 +307,19 @@ describe("app", () => {
             })
         })
 
+    })
 
+    describe("GET /api/articles/:article_id (comment count)", () => {
+        test("should return single object including property of comment_count", () => {
+            return request(app).get("/api/articles/6").expect(200).then(({ body }) => {
+                const { article } = body;
+
+                expect(article).toMatchObject({
+                    comment_count: expect.any(Number)
+                })
+
+            })
+        })
     })
 
 });
