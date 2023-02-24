@@ -7,13 +7,7 @@ const fetchAllArticles = (req, res, next) => {
 
     getAllTopics()
         .then((availableTopics) => {
-            const topicsExisting = []
-            availableTopics.forEach((element) => {
-                slug = element.slug
-                topicsExisting.push(slug)
-            })
-
-            return getAllArticles(topic, sort_by, order, topicsExisting)
+            return getAllArticles(topic, sort_by, order, availableTopics)
         }).then((articles) => {
             res.status(200).send({ "articles": articles })
         }).catch(err => {
