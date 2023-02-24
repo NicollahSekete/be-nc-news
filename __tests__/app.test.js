@@ -73,6 +73,7 @@ describe("app", () => {
         test("should return an array of objects with expected properties", () => {
             return request(app).get('/api/articles/1/comments').expect(200).then((res) => {
                 const result = res.body.comments
+
                 expect(result.length).toBeGreaterThan(0)
                 result.forEach((element) => {
                     expect(element).toMatchObject({
@@ -409,6 +410,31 @@ describe("app", () => {
             })
         })
     })
+
+    describe("DELETE /api/comments/:comment_id", () => {
+
+        test("should delete restaurant with corresponding id", () => {
+            return request(app).delete("/api/comments/6").expect(204).then((res) => {
+                expect(res.body).toEqual({});
+            });
+        })
+
+        test("should return 400 invalid ID", () => {
+            return request(app).delete("/api/comments/notAnId").expect(400).then(({ body }) => {
+
+                expect(body.msg).toBe('Bad Request')
+            });
+        })
+
+        test("should return 404 resource that does not exist", () => {
+            return request(app).delete("/api/comments/9999999").expect(404).then(({body}) => {
+
+                expect(body.msg).toBe('Not Found')
+            });
+        })
+
+    })
+
 
     describe("GET /api", () => {
         test("should return an object describing all available endpoints", () => {

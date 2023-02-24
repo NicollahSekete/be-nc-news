@@ -8,6 +8,8 @@ const { updateArticle } = require('./controllers/updateArticleController')
 const { fetchAllUsers } = require('./controllers/fetchAllUsersController')
 const { addComment } = require('./controllers/addCommentController')
 const { fetchCommentsByArticleId } = require('./controllers/fetchCommentsByArticleIdController')
+const { removeComment } = require('./controllers/removeCommentController')
+
 const { getAllEndpoints } = require('./controllers/getAllEndpointsController')
 
 const { handles500Errors, handles400Errors, handlesCustomErrors, handlePsql400Errors } = require('./handlesErrors')
@@ -23,6 +25,7 @@ app.get("/api/articles/:article_id/comments", fetchCommentsByArticleId)
 
 app.patch("/api/articles/:article_id", updateArticle);
 app.post("/api/articles/:article_id/comments", addComment)
+app.delete("/api/comments/:comment_id", removeComment)
 
 
 app.all("*", (req, res, next) => {
