@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://back-end-news-project.onrender.com/api">
-    <img src="./media/ezgif.com-video-to-gif.gif" height="300px">
+    <img src="./ezgif.com-video-to-gif.gif" height="300px">
   </a>
 </p>
 
@@ -20,12 +20,12 @@
     - [Key features](#key-features)
   - [🛠️ Set up](#️-set-up)
     - [Clone the repo](#clone-the-repo)
-    - [install dependencies](#install-dependencies)
+    - [Install dependencies](#install-dependencies)
     - [Create 2 .env files](#create-2-env-files)
     - [Create local db](#create-local-db)
     - [Seed the local db](#seed-the-local-db)
-    - [start your local server](#start-your-local-server)
-    - [run tests](#run-tests)
+    - [Start your local server](#start-your-local-server)
+    - [Run tests](#run-tests)
     - [Check its up and running](#check-its-up-and-running)
   - [🔬 Testing](#-testing)
   - [📍 Minimum requirement](#-minimum-requirement)
@@ -34,12 +34,12 @@
 
 ## 📑 About the project
 
-This is a project which was created for the Northcoders backend project. The goal of this is to provide a way to interact with component expected on a news site, such as topics, articles and comments.
+This is a project which was created for the Northcoders backend project. The goal of this project is to provide a way to interact with data expected on a news site, such as topics, articles and comments.
 
 ### Key features
 
-- Able to retries articles with queries
-- Able to Create comments for articles
+- Able to retrieve articles with queries
+- Able to create comments for articles
 - Able to update votes on comments
 - Able to delete comments
 
@@ -53,7 +53,7 @@ This is a project which was created for the Northcoders backend project. The goa
 $ git clone https://github.com/NicollahSekete/be-nc-news.git
 ```
 
-### install dependencies
+### Install dependencies
 
 ```
 $ npm install
@@ -76,13 +76,13 @@ $ npm run setup-dbs
 $ npm run seed
 ```
 
-### start your local server
+### Start your local server
 
 ```
 $ npm start
 ```
 
-### run tests
+### Run tests
 
 ```
 $ npm test
@@ -98,7 +98,7 @@ http://localhost:9090/api/articles/1
 
 ## 🔬 Testing
 
-You are able to run current tests or tests you create through the predifined test script available.
+You are able to run current tests or tests you create through the predefined test script available.
 
 ## 📍 Minimum requirement
 
