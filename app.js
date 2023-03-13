@@ -1,5 +1,10 @@
+
+
 const express = require('express');
 const app = express();
+const cors = require('cors');
+app.use(cors());
+
 app.use(express.json());
 const { fetchArticleByArticleId } = require('./controllers/fetchArticleByArticleIdController')
 const { fetchAllTopics } = require('./controllers/fetchAllTopicsController')
@@ -13,7 +18,6 @@ const { removeComment } = require('./controllers/removeCommentController')
 const { getAllEndpoints } = require('./controllers/getAllEndpointsController')
 
 const { handles500Errors, handles400Errors, handlesCustomErrors, handlePsql400Errors } = require('./handlesErrors')
-
 
 
 app.get("/api", getAllEndpoints)

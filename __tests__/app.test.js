@@ -56,7 +56,7 @@ describe("app", () => {
         })
     })
 
-    describe("GET /api/topics", () => {
+    describe.only("GET /api/topics", () => {
         test("should return an array of objects with properties of slug and description", () => {
             return request(app).get('/api/topics').expect(200).then((res) => {
                 expect(res.body.topics[0]).toMatchObject({
